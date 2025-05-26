@@ -15,5 +15,5 @@ jobs:
         with:
           ruby-version: 3.2
 
-      - run: bundle install || true
-      - run: ruby test/run_tests.rb
+      - run: bundle install
+      - run: bundle exec rspec

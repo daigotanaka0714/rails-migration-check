@@ -1,12 +1,39 @@
 name: 'Rails Migration Check'
-description: 'Check Rails migration files for naming and schema inconsistencies'
+description: 'Check Rails migration files for naming conventions and automatically run migrations to verify schema consistency'
 author: 'Daigo Tanaka'
+
+inputs:
+  skip-migration-execution:
+    description: 'Skip executing rails db:migrate (useful for testing or when migrations should not be run)'
+    required: false
+    default: 'false'
+  migration-command:
+    description: 'Custom migration command to run (default: bundle exec rails db:migrate)'
+    required: false
+    default: 'bundle exec rails db:migrate'
+  working-directory:
+    description: 'Working directory where the Rails project is located'
+    required: false
+    default: '.'
+
 runs:
   using: 'composite'
   steps:
+    - name: Set up environment
+      shell: bash
+      run: |
+        echo "Setting up Rails Migration Check environment..."
+        cd ${{ inputs.working-directory }}
+        
     - name: Run migration check script
       shell: bash
-      run: ruby ${{ github.action_path }}/scripts/check_migrations.rb
+      env:
+        SKIP_MIGRATION_EXECUTION: ${{ inputs.skip-migration-execution }}
+        MIGRATION_COMMAND: ${{ inputs.migration-command }}
+      run: |
+        cd ${{ inputs.working-directory }}
+        ruby ${{ github.action_path }}/scripts/check_migrations.rb
+        
 branding:
   icon: 'check-circle'
-  color: 'red'
+  color: 'green'
