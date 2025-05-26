@@ -1,42 +1,35 @@
 # rails-migration-check
 
-[![Test Rails Migration Checks](https://github.com/your-org/rails-migration-check/actions/workflows/check-migrations.yml/badge.svg)](https://github.com/your-org/rails-migration-check/actions/workflows/check-migrations.yml)
+[![CI](https://github.com/daigotanaka0714/rails-migration-check/actions/workflows/test.yml/badge.svg)](https://github.com/daigotanaka0714/rails-migration-check/actions/workflows/test.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A GitHub Actions package to **automatically check for common Rails migration inconsistencies** (naming, methods, schema.rb sync, etc.) on pull requests.
-
-## Features
-
-- Checks Rails migration filenames (timestamp + name format)
-- Ensures each migration file has a `change`, `up`, or `down` method
-- Detects if `db/schema.rb` is updated with new migrations
-- Works out-of-the-box in CI on PRs
+Reusable GitHub Action to check for Rails migration file inconsistencies (file naming, method presence, schema.rb update).
 
 ## Usage
 
-### 1. Add to your repository
+Add to your workflow:
 
-Clone or copy this repository’s `scripts/` and `.github/workflows/` directories into your Rails project.
+```yaml
+- uses: actions/checkout@v4
+- uses: ruby/setup-ruby@v1
+  with:
+    ruby-version: 3.2
+- uses: daigotanaka0714/rails-migration-check@v1
+```
 
-### 2. Enable GitHub Actions
+## What it checks
 
-This workflow runs on every Pull Request that changes `db/migrate` or `db/schema.rb`.
+- Migration filename format
+- Migration method existence (`change`, `up`, or `down`)
+- `schema.rb` updated
 
-### 3. Example output (on PR)
+## Local Test
 
-- ✅ All migrations look good.
-- ❌ Invalid filename format: `20230507123456_create_user.rb`
-- ❌ No migration method found in: `20230507123457_add_email_to_users.rb`
-- ❌ schema.rb has not been updated. Run `rails db:migrate` and commit changes.
+Run all self-tests:
 
-## Customization
-
-You can extend `scripts/check_migrations.rb` to include your team's specific migration rules.
-
-## Development
-
-- Requires Ruby 2.7+ and Bundler
-- Runs in standard GitHub Actions environment
+```sh
+ruby test/run_tests.rb
+```
 
 ## License
 
