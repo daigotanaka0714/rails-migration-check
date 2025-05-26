@@ -1,5 +1,5 @@
 name: 'Rails Migration Check'
-description: 'Check Rails migration files for naming conventions and automatically run migrations to verify schema consistency'
+description: 'Automatically validate Rails migration files, execute migrations, and verify schema.rb consistency with flexible configuration options'
 author: 'Daigo Tanaka'
 
 inputs:
