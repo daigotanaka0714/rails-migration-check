@@ -1,5 +1,5 @@
 name: 'Rails Migration Check'
-description: 'Automatically validate Rails migration files, execute migrations, and verify schema.rb consistency with flexible configuration options'
+description: 'Validate Rails migration files, run migrations automatically, and check schema.rb consistency'
 author: 'Daigo Tanaka'
 
 inputs:
