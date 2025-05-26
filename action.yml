@@ -1,0 +1,12 @@
+name: 'Rails Migration Check'
+description: 'Check Rails migration files for naming and schema inconsistencies'
+author: 'Daigo Tanaka'
+runs:
+  using: 'composite'
+  steps:
+    - name: Run migration check script
+      shell: bash
+      run: ruby ${{ github.action_path }}/scripts/check_migrations.rb
+branding:
+  icon: 'check-circle'
+  color: 'red'
