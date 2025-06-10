@@ -18,8 +18,9 @@ migrations.each do |file|
   end
 end
 
-# Execute migrations only if not in test environment
-unless ENV.fetch('SKIP_MIGRATION_EXECUTION', false)
+# Execute migrations only if not explicitly skipped
+skip_migration_execution = ENV['SKIP_MIGRATION_EXECUTION'] == 'true'
+unless skip_migration_execution
   puts "=== Rails db/schema.rb file checker ==="
   # Now execute migrations manually
   # Use custom migration command if provided, otherwise use default
@@ -29,10 +30,11 @@ unless ENV.fetch('SKIP_MIGRATION_EXECUTION', false)
 end
 
 # Check schema.rb changes only if migrations exist and not in test environment
-unless ENV.fetch('SKIP_GIT_CHECK', false)
+skip_git_check = ENV['SKIP_GIT_CHECK'] == 'true'
+unless skip_git_check
   if migrations.any?
-    if ENV.fetch('MOCK_GIT_DIFF', false)
-      schema_diff = ENV.fetch('MOCK_GIT_DIFF', false)
+    if ENV['MOCK_GIT_DIFF']
+      schema_diff = ENV['MOCK_GIT_DIFF']
     else
       # Get schema.rb diff after running migrations
       schema_diff = `git diff --name-only db/schema.rb`
